@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='s3sourceuploader',
-    version='0.1',
+    version='0.1.1',
     description=('Add an upload to s3 command to setuptools.'),
     keywords='setuptools s3 upload',
     author='Sever Banesiu',
