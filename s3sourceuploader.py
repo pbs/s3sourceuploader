@@ -11,6 +11,7 @@ class UploadSource(Command):
 
     user_options = [
         ("bucket=", "b", "S3 bucket"),
+        ("folder=", "b", "folder in previously specified S3 bucket"),
         ("replace", None, "Replace existing files"),
     ]
 
@@ -18,6 +19,7 @@ class UploadSource(Command):
 	
     def initialize_options(self):
         self.bucket = None
+        self.folder = None
         self.replace = False
 
     def finalize_options(self):
@@ -38,6 +40,10 @@ class UploadSource(Command):
         bucket = s3.get_bucket(self.bucket, validate=False)
         for command, pyversion, filename in self.distribution.dist_files:
             base_filename = os.path.basename(filename)
+            if self.folder:
+                base_filename = '%s/%s' % (self.folder, base_filename)
             print 'Uploading %s to S3 %s' % (base_filename, self.bucket)
+            print os.environ['AWS_ACCESS_KEY_ID']
+            print os.environ['AWS_SECRET_ACCESS_KEY']
             key = bucket.new_key(base_filename)
             key.set_contents_from_filename(filename, replace=self.replace)
