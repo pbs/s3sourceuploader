@@ -43,7 +43,5 @@ class UploadSource(Command):
             if self.folder:
                 base_filename = '%s/%s' % (self.folder, base_filename)
             print 'Uploading %s to S3 %s' % (base_filename, self.bucket)
-            print os.environ['AWS_ACCESS_KEY_ID']
-            print os.environ['AWS_SECRET_ACCESS_KEY']
             key = bucket.new_key(base_filename)
             key.set_contents_from_filename(filename, replace=self.replace)
